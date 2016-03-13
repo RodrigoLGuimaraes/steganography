@@ -68,8 +68,9 @@ def deStegToFile(numBytes):
                 charList.append(chr(int(calc, 2)))
                 calc = '0b'
                 charNo += 1
-                if(charNo + 1 == numBytes):
+                if(charNo == numBytes):
                     saveToFile(charList)
+                    return;
     saveToFile(charList)
 
 
