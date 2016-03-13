@@ -110,3 +110,11 @@ numBytes = len(strOut)
 steg(stringToBitArray(strOut), False)
 deStegToFile(numBytes)
 
+#TO PLAY, IT IS CONSIDERING THAT YOU HAVE Aria Maestosa copied to your applications folder
+import subprocess
+pathApp = "/Applications/Aria Maestosa.app/Contents/MacOS/Aria Maestosa"
+pathFile = "output.mid"
+
+im = Image.open ("img/output.bmp")
+im.show()
+subprocess.call([pathApp, pathFile])
