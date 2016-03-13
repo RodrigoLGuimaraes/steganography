@@ -2,6 +2,7 @@ __author__ = 'rodrigoguimaraes'
 
 from PIL import Image
 
+
 def steg(listOfChars, looping):
     im = Image.open ("img/input.jpg")
     px = im.load()
@@ -44,6 +45,33 @@ def deSteg():
                 calc = '0b'
     print(''.join(charList))
 
+def saveToFile(newFileBytes):
+    newFileByteArray = bytearray(newFileBytes)
+    # make file
+    newFile = open ("output2.mid", "wb")
+    newFile.write(newFileByteArray)
+
+def deStegToFile(numBytes):
+    im = Image.open ("img/output.bmp")
+    px = im.load()
+    calc = '0b'
+    strChar = 0
+    charList = []
+    charNo = 0
+    for i in range(im.height):
+        for j in range(im.width):
+            bitRead = px[j,i][0]%2
+            calc = calc + str(bitRead)
+            strChar += 1
+            if(strChar == 8):
+                strChar = 0
+                charList.append(chr(int(calc, 2)))
+                calc = '0b'
+                charNo += 1
+                if(charNo + 1 == numBytes):
+                    saveToFile(charList)
+    saveToFile(charList)
+
 
 
 
@@ -64,4 +92,20 @@ def stringToBitArray(input):
 
 
 #steg(stringToBitArray("RODRIGO - "), True)
-deSteg()
+#deSteg()
+
+strOut = ""
+f = open("mario.mid", "rb")
+try:
+    byte = f.read(1)
+    while byte != "":
+        strOut = strOut + byte
+        byte = f.read(1)
+finally:
+    f.close()
+
+numBytes = len(strOut)
+
+steg(stringToBitArray(strOut), False)
+deStegToFile(numBytes)
+
